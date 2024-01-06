@@ -5,7 +5,11 @@ __pycache__/
 
 # C extensions
 *.so
-
+.vscode/
+bert-base-uncased/
+bert-large-uncased/
+files/
+*.rdb
 # Distribution / packaging
 .Python
 build/

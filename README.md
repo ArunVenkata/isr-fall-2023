@@ -1,7 +1,6 @@
 # isr-fall-2023
 
 
-
 Steps to Set up Backend:
 - Python 3 Required
 - Install [redis-server](https://redis.io/docs/install/install-redis/)

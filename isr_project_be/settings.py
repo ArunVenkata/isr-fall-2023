@@ -2,7 +2,7 @@ from flask import Flask
 from celery import Celery, Task
 import os
 from dotenv import load_dotenv
-
+from flask_cors import CORS, cross_origin
 
 load_dotenv()
 
@@ -13,12 +13,17 @@ SETTINGS = {
         broker_url = os.getenv("CELERY_BROKER_URL"),
         result_backend=os.getenv("CELERY_BACKEND_URL"),
         task_ignore_result=True,
-    )
+    ),
+    "UPLOAD_FOLDER": "files",
 }
+from elasticsearch import Elasticsearch
 
+# Provide authentication credentials
+es = Elasticsearch([os.getenv("ES_URI")], verify_certs=False, timeout=30,max_retries=10, retry_on_timeout=True)
 
 def create_app(name):
-    app = Flask(name)    
+    app = Flask(name,static_url_path="/static", static_folder='files')
+    cors = CORS(app)
     app.config.from_mapping(SETTINGS)
     app.config.from_prefixed_env()
     celery_init_app(app)

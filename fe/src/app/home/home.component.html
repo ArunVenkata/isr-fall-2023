@@ -1,0 +1,71 @@
+<div class="flex flex-col w-[80%] mx-auto items-center  ">
+    <h1 class="text-4xl mt-24">Search For CPT Guidelines</h1>    
+    
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" class="w-[30rem] mt-24">
+        <input type="text" nz-input #searchInput placeholder="input search text" (input)="onSearchChange(searchInput.value)"/>
+      </nz-input-group>
+      <ng-template #suffixIconButton>
+        <button nz-button nzType="primary" nzSearch><span nz-icon nzType="search"></span></button>
+      </ng-template>
+
+
+      <div class="min-w-[50em] mt-12 mx-auto">
+        <ng-container *ngIf="searchResults.length">
+            <p class="text-md m-2">Retreived {{searchResults.length}} Results</p>
+            <nz-list nzItemLayout="horizontal" class="p-4" [nzLoading]="isLoading" nzBordered>
+                <nz-list-item *ngFor="let item of searchResults">
+                  <nz-list-item-meta
+                    [nzAvatar]="listAvatarItem"
+                    [nzDescription]="listItemDescription"
+                    [nzTitle]="listItemTitle"
+                  >
+                    
+                  </nz-list-item-meta>
+                  <ng-template #listAvatarItem>
+                    <a [href]="item.doc_url" target="_blank" class="text-black">
+                        <button nz-button nzType="default">
+                            View
+                            <span nz-icon class="translate-y-[-2px]" nzType="link" nzTheme="outline"></span>
+                        </button>
+                    </a>
+                        
+
+                  </ng-template>
+                
+                  <ng-template #listItemTitle>
+                    <p class="text-lg"
+                        nz-typography
+                        nzEllipsis
+                        [attr.title]="item.answer"
+                        [nzEllipsisRows]="1"
+                        >
+                        {{ item.answer }}
+                        </p>
+                  </ng-template>
+                  <ng-template #listItemDescription>
+                    <p class=""
+                        nz-typography
+                        nzEllipsis
+                        nzExpandable
+                        [attr.title]="item.relevant_portion"
+                        [nzEllipsisRows]="4"
+                        >
+                        {{ item.relevant_portion }}
+                        </p>
+                </ng-template>
+                </nz-list-item>
+                <nz-list-empty *ngIf="false"></nz-list-empty>
+              </nz-list>
+        </ng-container>
+        
+        <ng-container *ngIf="!searchResults.length">
+            <nz-spin [nzSpinning]="isLoading">
+                <nz-empty nzNotFoundContent="Type Something above to search"></nz-empty>
+            </nz-spin>
+        </ng-container>
+      </div>
+
+
+
+
+</div>
